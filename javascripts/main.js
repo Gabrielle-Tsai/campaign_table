@@ -1,6 +1,8 @@
 let actionBtns = document.querySelectorAll('.action-btn')
 let checkBoxs = document.querySelectorAll('[name="table-checkbox"]')
 let darkModeBtn = document.querySelector('#dark-mode')
+let selectAllBtn = document.querySelector("#select-all")
+let allChecked = true
 
 function callMenu (e) {
     let selectedAction = e.target
@@ -38,5 +40,30 @@ darkModeBtn.addEventListener('click', (e) => {
         document.querySelector('#main-app').dataset.theme = 'dark'
     } else {
         document.querySelector('#main-app').dataset.theme = 'light'
+    }
+})
+
+selectAllBtn.addEventListener("click", () => {
+    checkBoxs.forEach((checkbox) => {
+        if (checkbox.checked !== true) {
+            allChecked = false
+        }
+    })
+
+    //如果 checkbox 全部都被選到就取消全選
+    if (allChecked) {
+        checkBoxs.forEach((checkbox) => {
+            checkbox.checked = false
+            let change = new Event('change')
+            checkbox.dispatchEvent(change)
+        })
+    } else {
+        //否則有 checkbox 沒有被選到，就全選
+        checkBoxs.forEach((checkbox) => {
+            checkbox.checked = 'checked'
+            let change = new Event('change')
+            checkbox.dispatchEvent(change)
+        })
+        allChecked = true
     }
 })
